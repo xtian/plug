@@ -65,9 +65,17 @@ defmodule Plug.Conn.Cookies do
 
     "#{key}=#{value}; path=#{path}"
     |> concat_if(opts[:domain], &"; domain=#{&1}")
+    |> concat_if(opts[:extra_attrs], &"; #{encode_extra_attrs(&1)}")
     |> concat_if(opts[:max_age], &encode_max_age(&1, opts))
     |> concat_if(Map.get(opts, :secure, false), "; secure")
     |> concat_if(Map.get(opts, :http_only, true), "; HttpOnly")
+  end
+
+  defp encode_extra_attrs(map) do
+    Enum.map_join map, "; ", fn
+      {k, true} -> k
+      {k, v} -> "#{k}=#{v}"
+    end
   end
 
   defp encode_max_age(max_age, opts) do

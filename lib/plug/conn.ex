@@ -806,12 +806,14 @@ defmodule Plug.Conn do
   ## Options
 
     * `:domain` - the domain the cookie applies to
-    * `:max_age` - the cookie max-age, in seconds. Providing a value for this option will set
-      both the _max-age_ and _expires_ cookie attributes
+    * `:max_age` - the cookie max-age, in seconds. Providing a value for this
+      option will set both the _max-age_ and _expires_ cookie attributes
     * `:path` - the path the cookie applies to
     * `:http_only` - when false, the cookie is accessible beyond http
     * `:secure` - if the cookie must be sent only over https. Defaults
       to true when the connection is https
+    * `:extra_attrs` - map of additional attributes to add to the cookie. E.g,
+      `%{"SameSite" => "Lax", "BooleanAttr" => true}`
 
   """
   @spec put_resp_cookie(t, binary, binary, Keyword.t) :: t

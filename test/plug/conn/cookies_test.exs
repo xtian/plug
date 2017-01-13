@@ -56,4 +56,10 @@ defmodule Plug.Conn.CookiesTest do
     assert encode("foo", %{value: "bar", max_age: 60, universal_time: start}) ==
            "foo=bar; path=/; expires=Sat, 29 Sep 2012 15:33:10 GMT; max-age=60; HttpOnly"
   end
+
+  test "encodes with :extra_attrs option" do
+    extra_attrs = %{"SameSite" => "Lax", "BooleanAttr" => true}
+    assert encode("foo", %{value: "bar", extra_attrs: extra_attrs}) ==
+           "foo=bar; path=/; BooleanAttr; SameSite=Lax; HttpOnly"
+  end
 end
